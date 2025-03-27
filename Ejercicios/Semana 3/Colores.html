@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mezclador de Colores RGB</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f3f4f6;
+            padding: 20px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background-color: white;
+            border-radius: 10px;
+            padding: 24px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 24px;
+            font-size: 24px;
+            color: #333;
+        }
+        
+        .color-display {
+            width: 100%;
+            height: 160px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s;
+        }
+        
+        .hex-display {
+            text-align: center;
+            margin-bottom: 24px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .slider-container {
+            margin-bottom: 24px;
+        }
+        
+        .slider-group {
+            margin-bottom: 16px;
+        }
+        
+        .slider-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        
+        .slider-label {
+            font-weight: 500;
+        }
+        
+        .slider-label.red {
+            color: #dc2626;
+        }
+        
+        .slider-label.green {
+            color: #16a34a;
+        }
+        
+        .slider-label.blue {
+            color: #2563eb;
+        }
+        
+        .slider-value {
+            font-weight: 500;
+        }
+        
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: #e5e7eb;
+            border-radius: 4px;
+            outline: none;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #4f46e5;
+            cursor: pointer;
+        }
+        
+        input[type="range"]::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #4f46e5;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .reset-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #f3f4f6;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            margin-bottom: 16px;
+            transition: background-color 0.2s;
+        }
+        
+        .reset-btn:hover {
+            background-color: #e5e7eb;
+        }
+        
+        .presets-title {
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+        
+        .presets-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+        
+        .preset-btn {
+            padding: 8px;
+            border-radius: 6px;
+            border: none;
+            font-weight: 500;
+            cursor: pointer;
+            font-size: 12px;
+            transition: opacity 0.2s;
+        }
+        
+        .preset-btn:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Mezclador de Colores RGB</h1>
+        
+        <!-- Color display -->
+        <div class="color-display" id="colorDisplay"></div>
+        
+        <!-- HEX code display -->
+        <div class="hex-display" id="hexDisplay">#808080</div>
+        
+        <!-- RGB sliders -->
+        <div class="slider-container">
+            <div class="slider-group">
+                <div class="slider-header">
+                    <label class="slider-label red">Rojo (R)</label>
+                    <span class="slider-value" id="redValue">128</span>
+                </div>
+                <input type="range" id="redSlider" min="0" max="255" value="128">
+            </div>
+            
+            <div class="slider-group">
+                <div class="slider-header">
+                    <label class="slider-label green">Verde (G)</label>
+                    <span class="slider-value" id="greenValue">128</span>
+                </div>
+                <input type="range" id="greenSlider" min="0" max="255" value="128">
+            </div>
+            
+            <div class="slider-group">
+                <div class="slider-header">
+                    <label class="slider-label blue">Azul (B)</label>
+                    <span class="slider-value" id="blueValue">128</span>
+                </div>
+                <input type="range" id="blueSlider" min="0" max="255" value="128">
+            </div>
+        </div>
+        
+        <!-- Reset button -->
+        <button class="reset-btn" id="resetBtn">Resetear</button>
+        
+        <!-- Predefined colors -->
+        <h2 class="presets-title">Colores predefinidos:</h2>
+        <div class="presets-container" id="presetsContainer">
+            <!-- Preset buttons will be added here by JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        // DOM elements
+        const colorDisplay = document.getElementById('colorDisplay');
+        const hexDisplay = document.getElementById('hexDisplay');
+        const redSlider = document.getElementById('redSlider');
+        const greenSlider = document.getElementById('greenSlider');
+        const blueSlider = document.getElementById('blueSlider');
+        const redValue = document.getElementById('redValue');
+        const greenValue = document.getElementById('greenValue');
+        const blueValue = document.getElementById('blueValue');
+        const resetBtn = document.getElementById('resetBtn');
+        const presetsContainer = document.getElementById('presetsContainer');
+
+        // Predefined colors
+        const predefinedColors = [
+            { name: "Rojo", rgb: [255, 0, 0] },
+            { name: "Verde", rgb: [0, 255, 0] },
+            { name: "Azul", rgb: [0, 0, 255] },
+            { name: "Amarillo", rgb: [255, 255, 0] },
+            { name: "Violeta", rgb: [148, 0, 211] },
+            { name: "Naranja", rgb: [255, 165, 0] }
+        ];
+
+        // Convert RGB to HEX
+        function rgbToHex(r, g, b) {
+            return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase();
+        }
+
+        // Update color display and hex code
+        function updateColor() {
+            const r = parseInt(redSlider.value);
+            const g = parseInt(greenSlider.value);
+            const b = parseInt(blueSlider.value);
+            
+            const hexColor = rgbToHex(r, g, b);
+            
+            colorDisplay.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+            hexDisplay.textContent = hexColor;
+            
+            redValue.textContent = r;
+            greenValue.textContent = g;
+            blueValue.textContent = b;
+        }
+
+        // Reset to default values
+        function resetColor() {
+            redSlider.value = 128;
+            greenSlider.value = 128;
+            blueSlider.value = 128;
+            updateColor();
+        }
+
+        // Apply predefined color
+        function applyColor(r, g, b) {
+            redSlider.value = r;
+            greenSlider.value = g;
+            blueSlider.value = b;
+            updateColor();
+        }
+
+        // Create preset buttons
+        function createPresetButtons() {
+            predefinedColors.forEach(color => {
+                const button = document.createElement('button');
+                button.className = 'preset-btn';
+                button.textContent = color.name;
+                
+                const [r, g, b] = color.rgb;
+                button.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+                
+                // Set text color based on background brightness
+                const brightness = (r * 0.299 + g * 0.587 + b * 0.114);
+                button.style.color = brightness > 186 ? '#000' : '#fff';
+                
+                button.addEventListener('click', () => applyColor(r, g, b));
+                presetsContainer.appendChild(button);
+            });
+        }
+
+        // Event listeners
+        redSlider.addEventListener('input', updateColor);
+        greenSlider.addEventListener('input', updateColor);
+        blueSlider.addEventListener('input', updateColor);
+        resetBtn.addEventListener('click', resetColor);
+
+        // Initialize
+        createPresetButtons();
+        updateColor();
+    </script>
+</body>
+</html>
