@@ -1,0 +1,9 @@
+---
+import TaskItem from './TaskItem.astro';
+const { tasks } = Astro.props;
+---
+<ul>
+  {tasks.map(task => (
+    <TaskItem task={task} />
+  ))}
+</ul>

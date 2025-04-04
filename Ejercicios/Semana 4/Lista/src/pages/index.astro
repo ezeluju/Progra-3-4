@@ -1,0 +1,59 @@
+---
+import Layout from '../layouts/Layout.astro';
+import TaskList from '../components/TaskList.astro';
+import { tasks, addTask, deleteTask, toggleTask, clearCompleted, filterTasks } from '../server/tasks.js';
+
+const { request } = Astro;
+
+if(request.method === "POST"){
+  const formData = await request.formData();
+  const action = formData.get("action");
+  const id = formData.get("id");
+
+  if(action === "add"){
+    const taskText = formData.get("task");
+    if(taskText) addTask(taskText);
+  }
+
+  if(action === "delete" && id){
+    deleteTask(id);
+  }
+
+  if(action === "toggle" && id){
+    toggleTask(id);
+  }
+
+  if(action === "clearCompleted"){
+    clearCompleted();
+  }
+}
+
+const statusFilter = Astro.url.searchParams.get('status');
+const filteredTasks = filterTasks(statusFilter);
+---
+
+<Layout>
+  <h1>Lista de Tareas</h1>
+
+  <form action="/" method="POST">
+    <input type="text" name="task" placeholder="Nueva tarea" required />
+    <button type="submit" name="action" value="add">Agregar</button>
+  </form>
+
+  <form method="GET">
+    <select name="status">
+      <option value="">Todos</option>
+      <option value="pending">Pendientes</option>
+      <option value="completed">Completadas</option>
+    </select>
+    <button type="submit">Filtrar</button>
+  </form>
+
+  <TaskList tasks={filteredTasks} />
+
+  <form action="/" method="POST">
+    <button type="submit" name="action" value="clearCompleted">
+      Eliminar Completadas
+    </button>
+  </form>
+</Layout>

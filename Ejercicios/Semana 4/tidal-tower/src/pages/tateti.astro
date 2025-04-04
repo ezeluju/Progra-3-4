@@ -1,0 +1,47 @@
+--- 
+
+
+---
+<html>
+    <head>  
+        <meta charset="UTF-8" />
+        <title>Ta Te Ti</title>
+        <style>
+            .board {
+                display: grid;
+                grid-template-columns: repeat(3, 100px);
+                gap: 5px;
+                margin-bottom: 20px;
+            }
+            .cell {
+                width: 100px;
+                height: 100px;
+                background: #eee;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border: 1px solid #ccc;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>
+            Ta Te Ti
+        </h1>
+        <div class="board">
+            <!-- Creamos 9 celdas con un atributo para identificarlas -->
+            <div class="cell" data-cell-index="0"></div>
+            <div class="cell" data-cell-index="1"></div>
+            <div class="cell" data-cell-index="2"></div>
+            <div class="cell" data-cell-index="3"></div>
+            <div class="cell" data-cell-index="4"></div>
+            <div class="cell" data-cell-index="5"></div>
+            <div class="cell" data-cell-index="6"></div>
+            <div class="cell" data-cell-index="7"></div>
+            <div class="cell" data-cell-index="8"></div>
+        </div>
+        <button id="restart">Reiniciar</button>
+
+    </body>
+    
+</html>
