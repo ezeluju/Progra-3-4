@@ -1,47 +1,73 @@
---- 
-
-
 ---
-<html>
-    <head>  
-        <meta charset="UTF-8" />
-        <title>Ta Te Ti</title>
-        <style>
-            .board {
-                display: grid;
-                grid-template-columns: repeat(3, 100px);
-                gap: 5px;
-                margin-bottom: 20px;
-            }
-            .cell {
-                width: 100px;
-                height: 100px;
-                background: #eee;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                border: 1px solid #ccc;
-            }
-        </style>
-    </head>
-    <body>
-        <h1>
-            Ta Te Ti
-        </h1>
-        <div class="board">
-            <!-- Creamos 9 celdas con un atributo para identificarlas -->
-            <div class="cell" data-cell-index="0"></div>
-            <div class="cell" data-cell-index="1"></div>
-            <div class="cell" data-cell-index="2"></div>
-            <div class="cell" data-cell-index="3"></div>
-            <div class="cell" data-cell-index="4"></div>
-            <div class="cell" data-cell-index="5"></div>
-            <div class="cell" data-cell-index="6"></div>
-            <div class="cell" data-cell-index="7"></div>
-            <div class="cell" data-cell-index="8"></div>
-        </div>
-        <button id="restart">Reiniciar</button>
+import { getBoardState, getCurrentPlayer, checkWinner } from "../lib/gamestate";
 
-    </body>
+const board = getBoardState();
+const currentPlayer = getCurrentPlayer();
+const winner = checkWinner();
+---
+
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Ta Te Ti</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        background: #f4f4f4;
+      }
+      .board {
+        display: grid;
+        grid-template-columns: repeat(3, 100px);
+        gap: 5px;
+        margin-bottom: 20px;
+      }
+      .cell {
+        width: 100px;
+        height: 100px;
+        background: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid #333;
+        font-size: 2em;
+        font-weight: bold;
+      }
+      .cell.taken {
+        pointer-events: none;
+      }
+      button {
+        padding: 10px 20px;
+        background: #333;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Ta Te Ti</h1>
+    <p id="status">
+      {winner ? `¡${winner} ha ganado!` : `Turno de ${currentPlayer}`}
+    </p>
     
+    <div class="board">
+      {board.map((cell, index) => (
+        <form method="POST" action="/play">
+          <input type="hidden" name="index" value={index} />
+          <button class="cell {cell ? 'taken' : ''}" type="submit">
+            {cell || ""}
+          </button>
+        </form>
+      ))}
+    </div>
+
+    <form method="POST" action="/restart">
+      <button type="submit">Reiniciar</button>
+    </form>
+  </body>
 </html>
