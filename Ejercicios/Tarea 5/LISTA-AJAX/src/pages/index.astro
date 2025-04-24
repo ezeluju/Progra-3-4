@@ -1,0 +1,79 @@
+---
+import Layout from '../layouts/Layout.astro';
+import TaskList from '../components/TaskList.astro';
+import { tasks, addTask, deleteTask, toggleTask, clearCompleted, filterTasks } from '../server/tasks.js';
+
+const { request } = Astro;
+
+if (request.method === "POST") {
+  const formData = await request.formData();
+  const action = formData.get("action");
+  const id = formData.get("id");
+
+  if (action === "add") {
+    const taskText = formData.get("task");
+    if (taskText) addTask(taskText);
+  }
+
+  if (action === "delete" && id) {
+    deleteTask(id);
+  }
+
+  if (action === "toggle" && id) {
+    toggleTask(id);
+  }
+
+  if (action === "clearCompleted") {
+    clearCompleted();
+  }
+}
+
+const statusFilter = Astro.url.searchParams.get('status');
+const filteredTasks = filterTasks(statusFilter);
+---
+
+<Layout>
+  <div class="max-w-xl mx-auto mt-10 p-4 bg-white rounded shadow">
+    <h1 class="text-2xl font-bold mb-4">Lista de Tareas</h1>
+
+    <form action="/" method="POST" class="mb-4 flex gap-2">
+      <input class="border p-2 flex-1 rounded" type="text" name="task" placeholder="Nueva tarea" required />
+      <button class="bg-blue-500 text-white px-4 py-2 rounded" type="submit" name="action" value="add">Agregar</button>
+    </form>
+
+    <form method="GET" class="mb-4 flex gap-2">
+      <select class="border p-2 rounded flex-1" name="status">
+        <option value="">Todos</option>
+        <option value="pending">Pendientes</option>
+        <option value="completed">Completadas</option>
+      </select>
+      <button class="bg-gray-500 text-white px-4 py-2 rounded" type="submit">Filtrar</button>
+    </form>
+
+    <TaskList tasks={filteredTasks} />
+
+    <form action="/" method="POST" class="mt-4">
+      <button class="bg-red-500 text-white px-4 py-2 rounded" type="submit" name="action" value="clearCompleted">
+        Eliminar Completadas
+      </button>
+    </form>
+  </div>
+
+  <script type="module" is:inline>
+    document.addEventListener('click', async (e) => {
+      const button = e.target.closest('button[data-ajax]');
+      if (!button) return;
+
+      e.preventDefault();
+      const form = button.closest('form');
+      const formData = new FormData(form);
+
+      await fetch(form.action, {
+        method: form.method,
+        body: formData
+      });
+
+      location.reload();
+    });
+  </script>
+</Layout>

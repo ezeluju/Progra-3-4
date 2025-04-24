@@ -1,0 +1,11 @@
+--- 
+const { task } = Astro.props;
+---
+<li>
+  {task.text} - Estado: {task.completed ? "Completada" : "Pendiente"}
+  <form action="/" method="POST" style="display:inline;">
+    <input type="hidden" name="id" value={task.id} />
+    <button name="action" value="toggle">Cambiar Estado</button>
+    <button name="action" value="delete">Eliminar</button>
+  </form>
+</li>
