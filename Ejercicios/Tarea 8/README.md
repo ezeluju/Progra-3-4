@@ -1,4 +1,3 @@
-# 🛠️ Setup “from scratch” – **noahludi/advanced-backend** with Neon
 
 This guide walks you through spinning up the project *from zero* using a free PostgreSQL database on **Neon**.
 
@@ -7,7 +6,7 @@ This guide walks you through spinning up the project *from zero* using a free Po
 ## 1  Clone the repository
 
 ```bash
-git clone https://github.com/noahludi/advanced-backend.git
+git clone -> este repositorio
 cd advanced-backend
 ```
 
@@ -110,4 +109,3 @@ npm run dev
 
 ---
 
-That’s it! You now have **noahludi/advanced-backend** running locally with a Neon PostgreSQL database.
