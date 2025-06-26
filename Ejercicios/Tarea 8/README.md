@@ -25,7 +25,7 @@ npm install
 
 1. Sign up / log in to **[Neon](https://neon.tech)**.  
 2. Click **“New Project”**, pick a name and region.  
-3. When it finishes, open **“Connection Details”** and copy the **connection string**  
+3. When it finishes, open **“Connect”** and copy the **connection string**  
    *(starts with `postgresql://` and ends with `sslmode=require`)*.
 
 ---
