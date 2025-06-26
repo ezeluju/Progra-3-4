@@ -1,0 +1,73 @@
+// prisma/schema.prisma
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  name         String
+  passwordHash String
+  createdAt    DateTime @default(now())
+
+  preferences  Preference?
+  boards       Board[]     @relation("OwnerBoards")
+  boardLinks   BoardUser[]
+  tasksCreated Task[]      @relation("TaskCreator")
+}
+
+model Board {
+  id        Int         @id @default(autoincrement())
+  name      String
+  ownerId   Int
+  owner     User        @relation("OwnerBoards", fields: [ownerId], references: [id])
+  roles     BoardUser[]
+  tasks     Task[]
+  createdAt DateTime    @default(now())
+}
+
+model BoardUser {
+  boardId Int
+  userId  Int
+  role    Role
+
+  board Board @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([boardId, userId])
+}
+
+model Task {
+  id        Int     @id @default(autoincrement())
+  title     String
+  content   String?
+  completed Boolean @default(false)
+
+  board   Board @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  boardId Int
+
+  creator   User @relation("TaskCreator", fields: [creatorId], references: [id])
+  creatorId Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Preference {
+  id                  Int     @id @default(autoincrement())
+  autoRefreshInterval Int?
+  taskView            String?
+  userId              Int     @unique
+  user                User    @relation(fields: [userId], references: [id])
+}
+
+enum Role {
+  OWNER
+  EDITOR
+  VIEWER
+}
