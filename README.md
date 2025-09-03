@@ -2,6 +2,7 @@
 
 Aplicación Next.js para descubrir libros y publicar reseñas.
 
+
 ## Desarrollo local
 
 ```bash
