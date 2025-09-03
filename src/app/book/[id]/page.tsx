@@ -1,21 +1,21 @@
 import { headers } from 'next/headers'
 import BookReviews from '@/components/BookReviews'
 
-async function getBaseUrl() {
-  const h = await headers()
+function getBaseUrl() {
+  const h = headers()
   const host = h.get('host') || 'localhost:3000'
   const proto = h.get('x-forwarded-proto') || 'http'
   return `${proto}://${host}`
 }
 
 async function getBook(id: string) {
-  const base = await getBaseUrl()
+  const base = getBaseUrl()
   const res = await fetch(`${base}/api/books/${id}`, { cache: 'no-store' })
   if (!res.ok) return null
   return res.json()
 }
 
-export default async function BookPage({ params }: any) {
+export default async function BookPage({ params }: { params: { id: string } }) {
   const book = await getBook(params.id)
   if (!book) return <div className="p-6">No encontrado</div>
 
@@ -47,6 +47,7 @@ export default async function BookPage({ params }: any) {
       )}
 
       {/* wrapper cliente que orquesta formulario + lista */}
+      {/* @ts-expect-error Server rendering Client */}
       <BookReviews bookId={book.id} />
     </main>
   )
