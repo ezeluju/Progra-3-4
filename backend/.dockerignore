@@ -1,0 +1,41 @@
+# === Entornos virtuales ===
+.venv
+venv
+env
+
+# === Archivos Python innecesarios ===
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+
+# === Tests y coverage ===
+tests/
+htmlcov/
+.coverage
+.pytest_cache/
+.mypy_cache/
+.cache/
+
+# === Archivos de configuración locales ===
+.env
+*.env
+.env.local
+.env.*.local
+
+# === Logs ===
+*.log
+
+# === Git ===
+.git
+.gitignore
+
+# === IDEs ===
+.vscode
+.idea
+
+# === Otros ===
+Dockerfile
+docker-compose.yml

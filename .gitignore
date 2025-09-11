@@ -1,0 +1,55 @@
+# === Archivos de entorno sensibles ===
+.env
+*.env
+.env.local
+.env.*.local
+
+# === Backend (FastAPI / Python) ===
+backend/.venv/
+backend/venv/
+backend/env/
+backend/__pycache__/
+backend/*.pyc
+backend/*.pyo
+backend/*.pyd
+backend/*.db
+backend/.pytest_cache/
+backend/.mypy_cache/
+backend/.coverage
+backend/htmlcov/
+backend/.cache/
+
+# Archivos de logs
+backend/*.log
+
+# === Frontend (Expo / React Native) ===
+expo-resto/node_modules/
+expo-resto/.expo/
+expo-resto/.expo-shared/
+expo-resto/dist/
+expo-resto/build/
+expo-resto/web-build/
+
+# Expo debug/packager logs
+expo-resto/npm-debug.log*
+expo-resto/yarn-debug.log*
+expo-resto/yarn-error.log*
+expo-resto/package-lock.json
+expo-resto/yarn.lock
+
+# === Docker ===
+*.pid
+*.seed
+*.pid.lock
+docker-compose.override.yml
+
+# === IDEs y editores ===
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# === Sistema operativo ===
+.DS_Store
+Thumbs.db
+desktop.ini
