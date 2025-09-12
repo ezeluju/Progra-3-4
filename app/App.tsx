@@ -3,7 +3,7 @@ import { Text, TextInput, Button, ScrollView } from 'react-native';
 import * as FileSystem from 'expo-file-system';
 import { Audio } from 'expo-av';
 
-const API_BASE = 'http://10.0.2.2:8000'; // Emulador Android; en dispositivo usa la IP de tu PC
+const API_BASE = 'http://192.168.0.104:8000'; // Emulador Android; en dispositivo usa la IP de tu PC
 
 export default function App() {
   const [userId, setUserId] = useState('');
