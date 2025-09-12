@@ -12,6 +12,7 @@ from .schemas import EnrollResponse, IdentifyResponse, IdentifyTopK, LoginRespon
 from .audio import filebytes_to_embedding
 from .vector_search import search_top_k
 from .auth import create_jwt
+from .init_db import init_db
 
 app = FastAPI()
 app.add_middleware(
@@ -21,6 +22,13 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+@app.on_event("startup")
+def on_startup() -> None:
+    """Initialize database on application startup."""
+    init_db()
+
 
 
 @app.get("/health")

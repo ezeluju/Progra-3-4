@@ -23,7 +23,19 @@ See `.env.example` for required variables.
 
 ## Database
 
-Run the following SQL in Supabase:
+You can initialize the database from the command line:
+
+```bash
+python app/init_db.py
+
+```
+        O
+```bash
+python -m app.init_db
+
+```
+
+Alternatively, run the following SQL in Supabase:
 
 ```sql
 create extension if not exists vector;
