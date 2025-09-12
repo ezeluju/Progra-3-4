@@ -76,7 +76,13 @@ async def identify(
         user_id, name, score = results[0]
         match = score >= threshold
     topK = [IdentifyTopK(userId=u, name=n, score=s) for u, n, s in results]
-    return IdentifyResponse(match=match, userId=user_id if match else None, name=name if match else None, score=score if match else None, topK=topK)
+    return IdentifyResponse(
+        match=match,
+        userId=user_id if match else None,
+        name=name if match else None,
+        score=score if match else None,
+        topK=topK,
+    )
 
 
 @app.post("/login-by-voice")

@@ -1,6 +1,6 @@
 """Pydantic models for API responses."""
 from typing import List, Optional
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class EnrollResponse(BaseModel):
@@ -20,7 +20,7 @@ class IdentifyResponse(BaseModel):
     userId: Optional[str] = None
     name: Optional[str] = None
     score: Optional[float] = None
-    topK: List[IdentifyTopK] = []
+    topK: List[IdentifyTopK] = Field(default_factory=list)
 
 
 class LoginResponse(BaseModel):

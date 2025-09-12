@@ -1,6 +1,5 @@
 from sqlalchemy import text
-from app.db import engine, Base
-
+from .db import Base, engine
 
 def init_db() -> None:
     """Create database extension and tables."""
