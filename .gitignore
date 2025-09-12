@@ -1,41 +1,41 @@
-# === Archivos de entorno sensibles ===
+# === Environment files ===
 .env
 *.env
 .env.local
 .env.*.local
 
 # === Backend (FastAPI / Python) ===
-backend/.venv/
-backend/venv/
-backend/env/
-backend/__pycache__/
-backend/*.pyc
-backend/*.pyo
-backend/*.pyd
-backend/*.db
-backend/.pytest_cache/
-backend/.mypy_cache/
-backend/.coverage
-backend/htmlcov/
-backend/.cache/
-
-# Archivos de logs
-backend/*.log
+server/.venv/
+server/venv/
+server/env/
+server/__pycache__/
+server/app/__pycache__/
+server/*.pyc
+server/*.pyo
+server/.pytest_cache/
+server/.mypy_cache/
+server/.coverage
+server/htmlcov/
+server/.cache/
+server/*.log
 
 # === Frontend (Expo / React Native) ===
-expo-resto/node_modules/
-expo-resto/.expo/
-expo-resto/.expo-shared/
-expo-resto/dist/
-expo-resto/build/
-expo-resto/web-build/
+app/node_modules/
+app/.expo/
+app/.expo-shared/
+app/dist/
+app/build/
+app/web-build/
+app/npm-debug.log*
+app/yarn-debug.log*
+app/yarn-error.log*
+app/package-lock.json
+app/yarn.lock
 
-# Expo debug/packager logs
-expo-resto/npm-debug.log*
-expo-resto/yarn-debug.log*
-expo-resto/yarn-error.log*
-expo-resto/package-lock.json
-expo-resto/yarn.lock
+# Root-level dependencies
+node_modules/
+.yarn/
+.yarnrc.yml
 
 # === Docker ===
 *.pid
@@ -43,13 +43,13 @@ expo-resto/yarn.lock
 *.pid.lock
 docker-compose.override.yml
 
-# === IDEs y editores ===
+# === IDEs and editors ===
 .vscode/
 .idea/
 *.swp
 *.swo
 
-# === Sistema operativo ===
+# === Operating system files ===
 .DS_Store
 Thumbs.db
 desktop.ini

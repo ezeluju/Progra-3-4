@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "tarea_11",
-    "slug": "tarea_11",
+    "name": "VoiceID",
+    "slug": "voiceid-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
