@@ -8,6 +8,8 @@ FastAPI backend for speaker enrollment and voice login using SpeechBrain and pgv
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 uvicorn app.main:app --reload --port 8000
+
+uvicorn app.main:app --host 0.0.0.0 --port 8000 // <-- para entrar desde fuera del pc host.
 ```
 
 ### Docker
