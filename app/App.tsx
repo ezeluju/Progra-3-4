@@ -4,7 +4,9 @@ import { Text, TextInput, Button, ScrollView, View } from "react-native";
 import { Audio } from "expo-av";
 import * as FileSystem from "expo-file-system/legacy";
 
-const API_BASE = "http://192.168.0.104:8000"; // Emulador Android: http://10.0.2.2:8000
+const API_BASE = "http://10.206.207.124:8000";
+// 192.168.x.x:8000 <- si queres usar la app movil de expo tenes que poner la direccion donde hosteaste el back, si es local: la ip de tu pc. 
+// Emulador Android: http://10.0.2.2:8000 <--  no se como funciona esto porque no uso emulador, pero en teoria funciona :)
 
 export default function App() {
   const [userId, setUserId] = useState("");

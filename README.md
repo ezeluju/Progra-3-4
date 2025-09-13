@@ -1,34 +1,40 @@
 # VoiceID Monorepo
 
-Speaker enrollment and authentication by voice using FastAPI and Expo.
+Sistema de **registro y autenticación de usuarios por voz** utilizando **FastAPI** (backend) y **Expo React Native** (cliente).
 
-## Structure
+## 📂 Estructura del proyecto
 
-- `server/` – FastAPI backend
-- `app/` – Expo React Native client
+- `server/` – Backend en **FastAPI**  
+- `app/` – Cliente en **Expo React Native**
 
-## Quick Start
+## ⚡ Inicio rápido
 
-1. **Database (Supabase):**
-   Run the SQL from `server/README.md` to create the table and index.
-2. **Backend:**
-   See `server/README.md` for environment variables and run instructions.
-3. **Client:**
-   See `app/README.md` to start the Expo app.
+### 1. Base de datos (Supabase)
+Ejecutá el script SQL que está en [`server/README.md`](server/README.md) para crear la tabla y el índice necesarios.
 
-## Curl Examples
+### 2. Backend
+Revisá [`server/README.md`](server/README.md) para:  
+- Variables de entorno requeridas.  
+- Instrucciones para correr el servidor.  
 
+### 3. Cliente
+Revisá [`app/README.md`](app/README.md) para:  
+- Cómo iniciar la aplicación de Expo.  
+
+## 🔑 Endpoints principales
+
+A continuación, algunos ejemplos usando **cURL**:
+
+### ➕ Registrar usuario (enroll)
 ```bash
-# Enroll
 curl -F "userId=alice" -F "name=Alice" -F "file=@sample.wav" http://localhost:8000/enroll
-
-# Identify
-curl -F "file=@sample.wav" -F "threshold=0.82" http://localhost:8000/identify
-
-# Login by voice
-curl -F "file=@sample.wav" -F "threshold=0.82" http://localhost:8000/login-by-voice
 ```
-
-## Threshold
-
-Similarity scores range from 0 to 1. Start with a threshold between **0.78–0.86** and adjust based on false accept/reject rates in your environment.
+### 🔍 Identificar usuario
+```bash
+curl -F "file=@sample.wav" -F "threshold=0.75" http://localhost:8000/identify
+```
+### 🔐 Iniciar sesión por voz
+```bash
+curl -F "file=@sample.wav" -F "threshold=0.75" http://localhost:8000/login-by-voice
+```
+El threshold va de 0 a 1, y seria el porcentaje de similitud entre un audio y otro, cuanto mas bajo menos coincide la nueva voz con la guardada.

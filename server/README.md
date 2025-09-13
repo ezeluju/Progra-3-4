@@ -1,14 +1,20 @@
 # VoiceID Server
 
-FastAPI backend for speaker enrollment and voice login using SpeechBrain and pgvector.
+Backend en **FastAPI** para registro de usuarios por voz y login mediante comparación de *embeddings* de voz, utilizando **SpeechBrain** y **pgvector**.
 
-## Setup
+---
+
+## 🚀 Instalación y ejecución
+
+### Entorno virtual
 
 ```bash
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 uvicorn app.main:app --reload --port 8000
-
+```
+ 👉 Para exponer el servidor fuera del PC host:
+```bash
 uvicorn app.main:app --host 0.0.0.0 --port 8000 // <-- para entrar desde fuera del pc host.
 ```
 
@@ -19,13 +25,13 @@ docker build -t voiceid-api .
 docker run --rm -p 8000:8000 --env-file .env voiceid-api
 ```
 
-## Environment Variables
+## ⚙️ Variables de entorno
 
-See `.env.example` for required variables.
+Variables necesarias en `.env.example` 
 
-## Database
+## 🗄️ Base de datos
 
-You can initialize the database from the command line:
+Podés crear la base de datos ejecutando:
 
 ```bash
 python app/init_db.py
@@ -37,7 +43,7 @@ python -m app.init_db
 
 ```
 
-Alternatively, run the following SQL in Supabase:
+Inicialización manual en Supabase (SQL) 
 
 ```sql
 create extension if not exists vector;

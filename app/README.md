@@ -1,6 +1,6 @@
 # VoiceID Expo App
 
-Simple Expo client to enroll and authenticate users by voice.
+Cliente para registrar tu voz y luego logearte.
 
 ## Run
 
@@ -9,4 +9,4 @@ npm install
 npx expo start
 ```
 
-Edit `App.tsx` to change `API_BASE` for your backend URL.
+Editar `App.tsx` y cambiar `API_BASE` por la direccion del backend. Fijarse si usas emulador o la app de expo para movil.
