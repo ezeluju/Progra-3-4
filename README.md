@@ -1,3 +1,5 @@
+## No lo pude hostear debido al peso de las librerias utilizadas (7gb aprox), ademas de la ram utilizada, y habia que garpar host
+
 # VoiceID Monorepo
 
 Sistema de **registro y autenticación de usuarios por voz** utilizando **FastAPI** (backend) y **Expo React Native** (cliente).
