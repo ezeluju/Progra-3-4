@@ -6,6 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 import traceback
 from sqlalchemy.orm import Session
+from uuid import uuid4
 
 from .config import settings
 from .db import get_session
@@ -16,6 +17,7 @@ from .vector_search import search_top_k
 from .auth import create_jwt
 from .init_db import init_db
 import numpy as np
+
 
 app = FastAPI()
 app.add_middleware(
@@ -69,7 +71,7 @@ async def cosine_two(a: UploadFile = File(...), b: UploadFile = File(...)):
 
 @app.post("/enroll", response_model=EnrollResponse)
 async def enroll(
-    userId: str = Form(...),
+    userId: Optional[str] = Form(None),
     name: str = Form(...),
     file: UploadFile = File(...),
     session: Session = Depends(get_session),
@@ -85,6 +87,9 @@ async def enroll(
             raise HTTPException(400, "File too large")
 
         emb = filebytes_to_embedding(data)
+
+        if not userId:
+            userId = uuid4().hex
 
         user = session.get(models.UserVoice, userId)
         if user:

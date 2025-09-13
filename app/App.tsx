@@ -1,12 +1,75 @@
 // App.tsx — SDK 54 con expo-av y expo-file-system/legacy + cosine-two debug
 import React, { useState } from "react";
-import { Text, TextInput, Button, ScrollView, View } from "react-native";
+import { Text, TextInput, Button, ScrollView, View, Pressable, StyleSheet } from "react-native";
 import { Audio } from "expo-av";
 import * as FileSystem from "expo-file-system/legacy";
 
 const API_BASE = "http://10.206.207.124:8000";
 // 192.168.x.x:8000 <- si queres usar la app movil de expo tenes que poner la direccion donde hosteaste el back, si es local: la ip de tu pc. 
 // Emulador Android: http://10.0.2.2:8000 <--  no se como funciona esto porque no uso emulador, pero en teoria funciona :)
+
+
+
+const styles = StyleSheet.create({
+  container: { flex: 1, backgroundColor: "#f2f2f2" },
+  content: { padding: 20, gap: 12 },
+  title: {
+    fontSize: 22,
+    fontWeight: "bold",
+    textAlign: "center",
+    marginBottom: 8,
+  },
+  input: {
+    borderWidth: 1,
+    borderRadius: 8,
+    padding: 12,
+    backgroundColor: "#fff",
+  },
+  log: {
+    marginTop: 16,
+    fontFamily: "monospace",
+    backgroundColor: "#fff",
+    padding: 12,
+    borderRadius: 8,
+  },
+  button: {
+    backgroundColor: "#007bff",
+    paddingVertical: 12,
+    borderRadius: 8,
+  },
+  buttonDisabled: {
+    backgroundColor: "#ccc",
+  },
+  buttonText: {
+    color: "#fff",
+    textAlign: "center",
+    fontWeight: "bold",
+  },
+});
+
+function StyledButton({
+  title,
+  onPress,
+  disabled,
+}: {
+  title: string;
+  onPress: () => void;
+  disabled?: boolean;
+}) {
+  return (
+    <Pressable
+      onPress={onPress}
+      disabled={disabled}
+      style={({ pressed }) => [
+        styles.button,
+        disabled && styles.buttonDisabled,
+        pressed && { opacity: 0.8 },
+      ]}
+    >
+      <Text style={styles.buttonText}>{title}</Text>
+    </Pressable>
+  );
+}
 
 export default function App() {
   const [userId, setUserId] = useState("");
@@ -68,7 +131,11 @@ export default function App() {
         setLog(`HTTP ${res.status} ${res.statusText}\nContent-Type: ${contentType}\n\n${text}`);
       } else if (parsed) {
         setLog(JSON.stringify(parsed, null, 2));
-        if (action === "login-by-voice" && parsed.token) setToken(parsed.token);
+        if (action === "login-by-voice" && parsed.token) {
+          setToken(parsed.token);
+          if (parsed.userId) setUserId(parsed.userId);
+        }
+        if (action === "enroll" && parsed.id) setUserId(parsed.id);
       } else {
         setLog(`Respuesta no JSON (Content-Type: ${contentType})\n\n${text}`);
       }
@@ -116,32 +183,45 @@ export default function App() {
   }
 
   return (
-    <ScrollView contentContainerStyle={{ padding: 20, gap: 8 }}>
-      <Text>API: {API_BASE}</Text>
-      {token && <Text>Sesión iniciada para {userId}</Text>}
+    <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+      <Text style={styles.title}>Identificación por voz</Text>
+      <Text style={{ textAlign: "center" }}>API: {API_BASE}</Text>
+      {token && <Text style={{ textAlign: "center" }}>Sesión iniciada para {userId}</Text>}
 
+      {userId && (
+        <Text style={{ textAlign: "center" }}>ID asignado: {userId}</Text>
+      )}
       <TextInput
-        placeholder="User ID"
-        value={userId}
-        onChangeText={setUserId}
-        style={{ borderWidth: 1, borderRadius: 6, padding: 8 }}
-        autoCapitalize="none"
-      />
-      <TextInput
-        placeholder="Name"
+        placeholder="Nombre"
         value={name}
         onChangeText={setName}
-        style={{ borderWidth: 1, borderRadius: 6, padding: 8 }}
+        style={styles.input}
       />
 
-      <View style={{ gap: 8, marginTop: 8 }}>
-        <Button title="Enrolar" onPress={() => recordAndSend("enroll")} disabled={state !== "idle"} />
-        <Button title="Identificar" onPress={() => recordAndSend("identify")} disabled={state !== "idle"} />
-        <Button title="Login por voz" onPress={() => recordAndSend("login-by-voice")} disabled={state !== "idle"} />
-        <Button title="Comparar (cosine-two)" onPress={recordTwoAndCompare} disabled={state !== "idle"} />
+      <View style={{ gap: 8, marginTop: 16 }}>
+        <StyledButton
+          title="Registrar usuario"
+          onPress={() => recordAndSend("enroll")}
+          disabled={state !== "idle"}
+        />
+        <StyledButton
+          title="Identificar usuario"
+          onPress={() => recordAndSend("identify")}
+          disabled={state !== "idle"}
+        />
+        <StyledButton
+          title="Iniciar sesión por voz"
+          onPress={() => recordAndSend("login-by-voice")}
+          disabled={state !== "idle"}
+        />
+        <StyledButton
+          title="Comparación rápida de voz"
+          onPress={recordTwoAndCompare}
+          disabled={state !== "idle"}
+        />
       </View>
 
-      <Text style={{ marginTop: 16, fontFamily: "monospace" }}>{log}</Text>
+      <Text style={styles.log}>{log}</Text>
     </ScrollView>
   );
 }

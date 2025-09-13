@@ -27,7 +27,7 @@ A continuación, algunos ejemplos usando **cURL**:
 
 ### ➕ Registrar usuario (enroll)
 ```bash
-curl -F "userId=alice" -F "name=Alice" -F "file=@sample.wav" http://localhost:8000/enroll
+curl -F "name=Alice" -F "file=@sample.wav" http://localhost:8000/enroll
 ```
 ### 🔍 Identificar usuario
 ```bash
