@@ -74,18 +74,20 @@ export default function ChatPage() {
   };
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-2xl flex-col gap-6 p-6">
-      <header className="space-y-2">
-        <h1 className="text-4xl font-extrabold text-blue-600">
+    <main className="mx-auto flex min-h-screen max-w-3xl flex-col gap-8 p-6 text-slate-100 sm:p-10">
+      <header className="space-y-3 text-center sm:text-left">
+        <h1 className="text-4xl font-bold tracking-tight text-cyan-400">
           Chatbot con OpenRouter
         </h1>
-        <p className="text-sm text-gray-600">
-          Envía tus preguntas. Las respuestas se generan en tiempo real usando el
-          AI SDK de Vercel y un modelo gratuito de OpenRouter.
+        <p className="text-sm leading-relaxed text-slate-300">
+          Envía tus preguntas y obtén respuestas en tiempo real gracias al AI SDK
+          de Vercel y a un modelo gratuito de OpenRouter.
         </p>
       </header>
 
-      <div className="flex flex-1 flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
+      <div
+        className="flex flex-1 flex-col overflow-hidden rounded-3xl border border-slate-800/60 bg-slate-900/60 shadow-2xl backdrop-blur"
+      >
         <div
           ref={listRef}
           className="flex-1 space-y-4 overflow-y-auto p-6"
@@ -102,7 +104,7 @@ export default function ChatPage() {
           {isAwaitingResponse ? <TypingIndicator /> : null}
 
           {error ? (
-            <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+            <div className="rounded-xl border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm text-red-200">
               {error instanceof Error
                 ? error.message
                 : "Ocurrió un error al conectar con el modelo."}
@@ -111,7 +113,7 @@ export default function ChatPage() {
         </div>
 
         <form
-          className="border-t border-gray-200 bg-gray-50/80 p-4"
+          className="border-t border-slate-800/60 bg-slate-950/80 p-4"
           onSubmit={onSubmit}
         >
           <label htmlFor="prompt" className="sr-only">
@@ -126,14 +128,14 @@ export default function ChatPage() {
               maxLength={2000}
               value={input}
               onChange={(event) => setInput(event.target.value)}
-              className="flex-1 resize-none rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm outline-none transition focus:border-gray-400 focus:ring-2 focus:ring-indigo-100"
+              className="flex-1 resize-none rounded-2xl border border-slate-700/80 bg-slate-900/70 px-3 py-3 text-sm text-slate-100 shadow-inner outline-none transition placeholder:text-slate-500 focus:border-cyan-400/60 focus:ring-2 focus:ring-cyan-500/40"
               placeholder="Haz una pregunta al asistente…"
               aria-label="Mensaje para el asistente"
             />
             <button
               type="submit"
               disabled={isAwaitingResponse || input.trim().length === 0}
-              className="inline-flex items-center justify-center rounded-xl bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-indigo-500 disabled:cursor-not-allowed disabled:bg-indigo-300"
+              className="inline-flex items-center justify-center rounded-2xl bg-cyan-500/90 px-5 py-3 text-sm font-semibold text-slate-950 shadow-lg transition hover:bg-cyan-400 disabled:cursor-not-allowed disabled:bg-cyan-700/50 disabled:text-slate-400"
             >
               Enviar
             </button>
@@ -153,8 +155,10 @@ function ChatMessage({ role, text }: { role: MessageRole; text: string }) {
       aria-label={`${roleLabels[role]} dice`}
     >
       <div
-        className={`max-w-[80%] rounded-2xl px-4 py-3 shadow-sm ${
-          isUser ? "bg-indigo-600 text-white" : "bg-gray-100 text-gray-900"
+        className={`max-w-[80%] rounded-2xl px-4 py-3 shadow-lg ${
+          isUser
+            ? "bg-cyan-500 text-slate-950"
+            : "border border-slate-700/70 bg-slate-800/80 text-slate-100 backdrop-blur"
         }`}
       >
         <div className="mb-1 text-xs font-medium uppercase tracking-wide opacity-70">
@@ -168,10 +172,10 @@ function ChatMessage({ role, text }: { role: MessageRole; text: string }) {
 
 function TypingIndicator() {
   return (
-    <div className="inline-flex items-center gap-2 rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-600">
+    <div className="inline-flex items-center gap-2 rounded-full bg-slate-800/70 px-3 py-1 text-xs font-medium text-slate-300">
       <span className="relative flex h-2 w-2">
-        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-indigo-400 opacity-75" />
-        <span className="relative inline-flex h-2 w-2 rounded-full bg-indigo-500" />
+        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-cyan-400 opacity-75" />
+        <span className="relative inline-flex h-2 w-2 rounded-full bg-cyan-300" />
       </span>
       Escribiendo…
     </div>
@@ -184,8 +188,8 @@ function EmptyState({
   onExample: (question: string) => void;
 }) {
   return (
-    <div className="rounded-3xl border border-dashed border-gray-200 bg-gray-50 p-6 text-sm text-gray-600">
-      <p className="font-medium text-gray-700">
+    <div className="rounded-3xl border border-dashed border-slate-700 bg-slate-900/60 p-6 text-sm text-slate-300 backdrop-blur">
+      <p className="font-medium text-slate-100">
         Tu conversación aparecerá aquí. Algunas ideas para empezar:
       </p>
       <ul className="mt-3 grid gap-2 md:grid-cols-2">
@@ -199,7 +203,7 @@ function EmptyState({
             <button
               type="button"
               onClick={() => onExample(suggestion)}
-              className="w-full rounded-2xl border border-gray-200 bg-white px-3 py-2 text-left text-gray-700 transition hover:border-indigo-200 hover:bg-indigo-50"
+              className="w-full rounded-2xl border border-slate-700/70 bg-slate-900/60 px-3 py-2 text-left text-slate-200 transition hover:border-cyan-400/70 hover:bg-slate-800/80"
             >
               {suggestion}
             </button>
