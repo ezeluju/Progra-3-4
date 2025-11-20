@@ -46,33 +46,33 @@ export function ChatPanel() {
   ];
 
   const roleBorders: Record<string, string> = {
-    user: 'border-slate-900',
-    assistant: 'border-indigo-200',
-    system: 'border-amber-200',
-    tool: 'border-emerald-200',
+    user: 'border-slate-700',
+    assistant: 'border-indigo-500/60',
+    system: 'border-amber-500/60',
+    tool: 'border-emerald-500/60',
   };
 
   return (
-    <div className="flex flex-col gap-4 rounded-3xl border border-slate-200 bg-white/90 p-4 shadow-sm backdrop-blur">
+    <div className="flex flex-col gap-4 rounded-3xl border border-slate-800 bg-slate-900/70 p-4 shadow-xl shadow-black/50 ring-1 ring-indigo-800/40 backdrop-blur">
       <header className="flex items-start justify-between gap-3">
         <div className="space-y-1">
-          <p className="text-xs font-semibold uppercase tracking-wide text-indigo-600">Chat</p>
-          <h2 className="text-xl font-bold text-slate-900">Recomendaciones en tiempo real</h2>
-          <p className="text-sm text-slate-600">Comparte lo que quieres leer y el asistente buscará opciones.</p>
+          <p className="text-xs font-semibold uppercase tracking-wide text-indigo-300">Chat</p>
+          <h2 className="text-xl font-bold text-white">Recomendaciones en tiempo real</h2>
+          <p className="text-sm text-slate-300">Comparte lo que quieres leer y el asistente buscará opciones.</p>
         </div>
-        <div className="flex flex-col items-end gap-2 text-xs text-slate-600">
-          <span className="rounded-full bg-slate-100 px-3 py-1 font-semibold text-slate-800">/api/chat</span>
+        <div className="flex flex-col items-end gap-2 text-xs text-slate-300">
+          <span className="rounded-full bg-slate-800 px-3 py-1 font-semibold text-slate-100 ring-1 ring-slate-600">/api/chat</span>
           {isLoading ? (
-            <span className="rounded-full bg-amber-100 px-3 py-1 font-semibold text-amber-800">Ejecutando tools…</span>
+            <span className="rounded-full bg-amber-500/20 px-3 py-1 font-semibold text-amber-200 ring-1 ring-amber-400/50">Ejecutando tools…</span>
           ) : (
-            <span className="rounded-full bg-emerald-100 px-3 py-1 font-semibold text-emerald-700">Listo</span>
+            <span className="rounded-full bg-emerald-500/20 px-3 py-1 font-semibold text-emerald-200 ring-1 ring-emerald-500/40">Listo</span>
           )}
         </div>
       </header>
 
-      <div ref={scrollRef} className="h-[420px] space-y-3 overflow-y-auto rounded-2xl bg-slate-50 p-3 ring-1 ring-slate-100">
+      <div ref={scrollRef} className="h-[420px] space-y-3 overflow-y-auto rounded-2xl bg-slate-900/70 p-3 ring-1 ring-slate-800">
         {friendlyMessages.length === 0 && (
-          <div className="rounded-xl border border-dashed border-slate-200 bg-white p-4 text-sm text-slate-600">
+          <div className="rounded-xl border border-dashed border-slate-700 bg-slate-900/60 p-4 text-sm text-slate-300">
             Pide recomendaciones por género, autor o estado de ánimo. El asistente puede buscar en Google Books, guardar libros,
             marcar como leídos y calcular estadísticas.
           </div>
@@ -81,19 +81,19 @@ export function ChatPanel() {
         {friendlyMessages.map((message) => (
           <div
             key={message.id}
-            className={`flex flex-col gap-2 rounded-xl border-2 bg-white p-3 shadow-sm ${roleBorders[message.role] || 'border-slate-200'}`}
+            className={`flex flex-col gap-2 rounded-xl border-2 bg-slate-900/80 p-3 shadow-lg shadow-black/30 ${roleBorders[message.role] || 'border-slate-700'}`}
           >
-            <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wide text-slate-500">
-              <span className="rounded bg-slate-900 px-2 py-1 text-white">{message.displayName}</span>
-              <span className="rounded bg-slate-100 px-2 py-1 text-slate-700">{message.role}</span>
+            <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wide text-slate-300">
+              <span className="rounded bg-slate-200 px-2 py-1 text-slate-900">{message.displayName}</span>
+              <span className="rounded bg-slate-800 px-2 py-1 text-slate-100">{message.role}</span>
             </div>
-            <p className="whitespace-pre-wrap text-sm leading-relaxed text-slate-800">{message.content}</p>
+            <p className="whitespace-pre-wrap text-sm leading-relaxed text-slate-100">{message.content}</p>
           </div>
         ))}
       </div>
 
       <form ref={formRef} onSubmit={onSubmit} className="flex flex-col gap-3">
-        <label className="text-sm font-semibold text-slate-700" htmlFor="message">
+        <label className="text-sm font-semibold text-slate-200" htmlFor="message">
           Escribe tu consulta
         </label>
         <div className="flex flex-wrap gap-2">
@@ -105,14 +105,14 @@ export function ChatPanel() {
                 setInput(item.prompt);
                 queueMicrotask(() => formRef.current?.requestSubmit());
               }}
-              className="rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-slate-800"
+              className="rounded-xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-indigo-900/60 transition hover:-translate-y-0.5 hover:bg-indigo-500"
               disabled={isLoading}
             >
               {item.label}
             </button>
           ))}
         </div>
-        <div className="flex flex-col gap-2 rounded-2xl border border-slate-200 bg-white p-3 shadow-inner">
+        <div className="flex flex-col gap-2 rounded-2xl border border-slate-800 bg-slate-900/70 p-3 shadow-inner shadow-black/40">
           <textarea
             id="message"
             name="message"
@@ -124,26 +124,26 @@ export function ChatPanel() {
               }
               handleInputChange(event);
             }}
-            className="min-h-[90px] w-full resize-none rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-800 shadow-sm focus:border-indigo-500 focus:outline-none"
+            className="min-h-[90px] w-full resize-none rounded-xl border border-slate-700 bg-slate-950/60 p-3 text-sm text-slate-100 shadow-sm focus:border-indigo-500 focus:outline-none"
             placeholder="Ej. Recomiéndame novelas de ciencia ficción optimistas y guárdalas con prioridad alta"
             required
             maxLength={800}
           />
-        <div className="flex flex-wrap items-center justify-between gap-3 text-xs text-slate-500">
+          <div className="flex flex-wrap items-center justify-between gap-3 text-xs text-slate-400">
             <span>Las peticiones se gestionan directamente en el backend</span>
             <div className="flex items-center gap-2">
               {isLoading && (
                 <button
                   type="button"
                   onClick={() => stop()}
-                  className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50"
+                  className="rounded-xl border border-slate-700 bg-slate-800 px-4 py-2 text-sm font-semibold text-slate-100 hover:bg-slate-700"
                 >
                   Detener
                 </button>
               )}
               <button
                 type="submit"
-                className="rounded-xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-indigo-700 disabled:opacity-50"
+                className="rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-indigo-900/60 transition hover:from-indigo-500 hover:to-purple-500 disabled:opacity-50"
                 disabled={isLoading}
               >
                 Enviar
